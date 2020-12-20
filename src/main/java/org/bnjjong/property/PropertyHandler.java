@@ -42,7 +42,6 @@ public interface PropertyHandler {
    */
   void add(String propertyName, String path);
 
-
   /**
    * default로 등록을 했거나 {@link #add(String)} 이용하여등록하였다면 정상적으로 Configuration 객체를 반환 함.
    *
@@ -50,7 +49,6 @@ public interface PropertyHandler {
    * @throws IllegalStateException default로 등록된 프로퍼티가 없거나 등록된 프로퍼티가 없는데 호출할 경우
    */
   Configuration get();
-
 
   /**
    * <p>프로퍼티 명으로 등록된 Configuration 객체를 리턴 함</p>
