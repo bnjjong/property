@@ -6,11 +6,11 @@
 > pojo Project시 손쉽게 프로퍼티를 설정할 수 있도록 패키징
 
 ### PropertyHandler
-기본적으로 /enliple.properties 파일을 import 한다.
+기본적으로 /default.properties 파일을 import 한다.
 내부적으로 apache common configuration 라이브러리를 이용 한다.
 
 #### class diagram
-![MemoryPosition](./class%20diagram.png)
+![MemoryPosition](https://user-images.githubusercontent.com/44669620/102716379-e67d8e00-431e-11eb-85f2-dc9b7256713a.png)
 
 #### sourceSample
 
