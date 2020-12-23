@@ -11,8 +11,8 @@
 - Apache configuration2 2.7
 
 ### PropertyHandler
-기본적으로 /default.properties 파일을 import 한다.
-내부적으로 apache common configuration 라이브러리를 이용 한다.
+기본적으로 `/default.properties` 파일을 import 한다.
+내부적으로 `apache common configuration` 라이브러리를 이용 한다.
 
 #### class diagram
 ![MemoryPosition](https://user-images.githubusercontent.com/44669620/102716379-e67d8e00-431e-11eb-85f2-dc9b7256713a.png)
