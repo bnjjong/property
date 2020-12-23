@@ -12,7 +12,6 @@ import java.net.URISyntaxException;
 import java.rmi.UnexpectedException;
 import java.util.Arrays;
 import java.util.List;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.FileBasedConfiguration;
@@ -53,6 +52,7 @@ public class PropertyHandlerDefault implements PropertyHandler {
         }
       }
     } catch (URISyntaxException e) {
+      // TODO 에러 처리
     }
   }
 
@@ -144,6 +144,7 @@ public class PropertyHandlerDefault implements PropertyHandler {
     try {
       return builder.getConfiguration();
     } catch (ConfigurationException e) {
+      // TODO error 처리
 //      log.error(LogUtils.getStackErr(e));
     }
 

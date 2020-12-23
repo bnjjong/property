@@ -2,9 +2,22 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
 apply plugin: 'java-library'
+// fat jar
+// https://www.baeldung.com/gradle-fat-jar
+// https://blog.leocat.kr/notes/2017/10/11/gradle-shadowjar-make-fat-jar
+apply plugin: 'com.github.johnrengelman.shadow'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
+    }
+}
 
 group 'org.bnjjong'
-version '1.0'
+version '1.1'
 def defaultEncoding = 'UTF-8'
 compileJava.options.encoding = defaultEncoding
 
@@ -44,6 +57,10 @@ dependencies {
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
+    // https://mvnrepository.com/artifact/net.sf.json-lib/json-lib
+    // test json 변환시 사용
+    compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4', classifier:'jdk15'
+
 
     // test
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
@@ -57,11 +74,6 @@ dependencies {
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.6.2'
     // https://mvnrepository.com/artifact/org.assertj/assertj-core
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.15.0'
-
-
-
-
-
 }
 
 test {
@@ -81,4 +93,23 @@ test {
         //showStandardStreams = true
         events "passed", "skipped", "failed"
     }
+}
+
+jar {
+    finalizedBy shadowJar
+    archiveBaseName.set('property')
+    archiveAppendix.set('lib')
+    archiveClassifier.set('jdk-14')
+}
+
+shadowJar {
+    // 필터 처리
+    // https://imperceptiblethoughts.com/shadow/configuration/dependencies/#embedding-jar-files-inside-your-shadow-jar
+    dependencies {
+        exclude(dependency('ch.qos.logback:logback-classic:1.2.3') )
+        exclude(dependency('net.sf.json-lib:json-lib:2.4:jdk15') )
+    }
+    archiveBaseName.set('property')
+    archiveAppendix.set('lib')
+    archiveClassifier.set('jdk-14-all')
 }

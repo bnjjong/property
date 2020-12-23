@@ -5,6 +5,11 @@
 ## 목적
 > pojo Project시 손쉽게 프로퍼티를 설정할 수 있도록 패키징
 
+## 개발 스펙
+- Jdk 14
+- Gradle 6.7
+- Apache configuration2 2.7
+
 ### PropertyHandler
 기본적으로 /default.properties 파일을 import 한다.
 내부적으로 apache common configuration 라이브러리를 이용 한다.

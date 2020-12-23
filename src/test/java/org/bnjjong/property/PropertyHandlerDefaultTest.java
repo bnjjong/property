@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.io.LineIterator;
 import org.junit.jupiter.api.DisplayName;
@@ -53,6 +54,19 @@ class PropertyHandlerDefaultTest {
     assertThat(value).isEqualTo("value");
 
     log.info("value : {}", value);
+  }
+
+  @Test
+  @DisplayName("json 데이터 조회")
+  public void testJson() {
+    PropertyHandler instance = PropertyFactory.getInstance();
+    String jsonValue = instance.get().getString("jsonValue");
+    log.info("json data >>>>>>>>>>>>{}", jsonValue);
+    JSONObject jsonObject = JSONObject.fromObject(jsonValue);
+    log.info("convert json data >>>>>>>>>{}", jsonObject.toString());
+    assertThat(jsonObject.getString("key")).isEqualTo("value");
+    assertThat(jsonObject.getString("key2")).isEqualTo("value");
+
   }
 
   @Test
