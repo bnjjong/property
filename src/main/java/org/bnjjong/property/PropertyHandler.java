@@ -25,7 +25,7 @@ public interface PropertyHandler {
 
   /**
    * 해당 경로의 프로퍼티를 default 프로퍼티 객체에 append 한다. 이때 중복된 키가 있으면 덮어 쓸 수 있으니 주의가 필요 함. 경로가 올바르지 않을경우
-   * <code>Exception</code>이 발생한다.
+   * <code>IllegalArgumentException</code>이 발생한다.
    *
    * @param path properties 파일 경로
    * @throws IllegalArgumentException 경로가 올바르지 않을 경우

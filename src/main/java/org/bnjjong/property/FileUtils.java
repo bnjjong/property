@@ -1,10 +1,11 @@
 /*
- * COPYRIGHT (c) ADOP 2020
- * This software is the proprietary of ADOP
+ * Created By dogfootmaster@gmail.com on 2020
+ * This program is free software
  *
- * @author <a href=“mailto:jordan@adop.cc“>jordan</a>
- * @since 2020/09/07
+ * @author <a href=“mailto:dogfootmaster@gmail.com“>bnjjong</a>
+ * @since 2020/12/18
  */
+
 package org.bnjjong.property;
 
 import java.io.File;
