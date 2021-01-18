@@ -48,8 +48,12 @@ drwxr-xr-x@ 9 jordan  staff   288B Jan 18 19:29 ..
 
 ex) `gradle`
 ```groovy
-    // 외부 jar import
+// 외부 jar import
+dependencies {
+    ...
     compile files("libs/property-lib-1.1-jdk-14-all.jar")
+    ...
+}
 ```
 
 
