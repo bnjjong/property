@@ -1,28 +1,32 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'idea'
-apply plugin: 'java-library'
-// fat jar
-// https://www.baeldung.com/gradle-fat-jar
-// https://blog.leocat.kr/notes/2017/10/11/gradle-shadowjar-make-fat-jar
-apply plugin: 'com.github.johnrengelman.shadow'
+plugins {
+    id 'java'
+    id 'maven'
+    id 'java-library'
+    // https://docs.gradle.org/current/userguide/idea_plugin.html
+    id 'idea'
+    // fat jar
+    // https://www.baeldung.com/gradle-fat-jar
+    // https://blog.leocat.kr/notes/2017/10/11/gradle-shadowjar-make-fat-jar
+    id "com.github.johnrengelman.shadow" version "6.1.0"
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
-    }
+    // https://github.com/bintray/gradle-bintray-plugin
+    id "com.jfrog.bintray" version "1.8.5"
+
+    id "maven-publish"
 }
+
+allprojects {
+    sourceCompatibility = 14
+    targetCompatibility = 14
+}
+
 
 group 'org.bnjjong'
 version '1.1'
 def defaultEncoding = 'UTF-8'
 compileJava.options.encoding = defaultEncoding
 
-sourceCompatibility = 14
-targetCompatibility = 14
+
 
 
 repositories {
@@ -113,3 +117,88 @@ shadowJar {
     archiveAppendix.set('lib')
     archiveClassifier.set('jdk-14-all')
 }
+
+// https://reflectoring.io/guide-publishing-to-bintray-with-gradle/#build-sources-and-javadoc-artifacts
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+javadoc.failOnError = false
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+
+// https://reflectoring.io/guide-publishing-to-bintray-with-gradle/#define-what-to-publish
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "dogfootmaster"
+            name "jordan han"
+            email "dogfootmaster@gmail.com"
+        }
+    }
+
+    scm {
+        url "https://github.com/bnjjong/property"
+    }
+}
+
+publishing {
+    publications {
+        mavenPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar {
+                classifier "sources"
+            }
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+            groupId 'org.bnjjong'
+            artifactId 'property'
+            version '1.0.0'
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'An AWESOME lib. Really!')
+                root.appendNode('name', 'My Awesome Lib')
+                root.appendNode('url', 'https://github.com/bnjjong/property')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+    user = System.getProperty('bintray.user')
+    key = System.getProperty('bintray.key')
+    publications = ['mavenPublication']
+
+    pkg {
+        repo = 'propertyHandler'
+        name = 'property-handler'
+        userOrg = 'dogfootmaster'
+        licenses = ['GPL-3.0']
+        vcsUrl = 'https://github.com/bnjjong/property.git'
+        version {
+            name = '1.0.0'
+            desc = '1.0.0'
+            released  = new Date()
+        }
+    }
+
+}
+
